@@ -14,3 +14,18 @@ if (!function_exists('me'))
         return Auth::user();
     }
 }
+
+if (!function_exists('frontend'))
+{
+    /**
+     * Returns the path to the frontend.
+     *
+     * @param null $path
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    function frontend($path = null)
+    {
+        return url(config('app.frontend') . '/' . $path);
+    }
+}
