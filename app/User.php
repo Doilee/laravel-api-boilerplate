@@ -2,8 +2,10 @@
 
 namespace App;
 
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -33,7 +35,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use CanResetPassword,
+        Notifiable,
+        MustVerifyEmail;
 
     /**
      * The attributes that are mass assignable.
@@ -61,4 +65,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail); // my notification
+    }
 }
